@@ -3,8 +3,8 @@ require 'cobravsmongoose'
 require 'test/unit'
 begin
   require 'test/unit/xml' 
-rescue 
-  puts 'You need to install Test::Unit::XML (http://testunitxml.rubyforge.org/) for this test.'
+rescue LoadError
+  $stderr.puts 'You need to install Test::Unit::XML (http://testunitxml.rubyforge.org/) for this test.'
 end
 require File.dirname(__FILE__) + '/test_data'
 

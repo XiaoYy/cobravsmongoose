@@ -4,6 +4,7 @@ require 'cgi'
 #
 # CobraVsMongoose translates between XML documents and Ruby hashes according to the 
 # rules of the BadgerFish convention (see http://badgerfish.ning.com/).
+# It can also convert directly between XML and JSON using the JSON library.
 #
 class CobraVsMongoose
 
@@ -39,6 +40,22 @@ class CobraVsMongoose
     #
     def hash_to_xml(hash)
       return nested_data_to_xml(hash.keys.first, hash.values.first)
+    end
+    
+    #
+    # Returns an XML string corresponding to the given JSON string
+    #
+    def xml_to_json(xml)
+      require 'json'
+      return xml_to_hash(xml).to_json
+    end
+    
+    #
+    # Returns a JSON string corresponding to the given XML string
+    #
+    def json_to_xml(json)
+      require 'json'
+      return hash_to_xml(JSON.parse(json))
     end
     
     #
