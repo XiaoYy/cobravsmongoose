@@ -1,2 +1,6 @@
+== 0.0.2 (2006-06-28)
+* Added direct XML <-> JSON conversion
+* Can accept REXML::Document or anything that responds to to_s for XML
+
 == 0.0.1 (2006-04-16)
 * Initial release.
