@@ -14,7 +14,9 @@ class CobraVsMongoose
   class << self
 
     #
-    # Returns a Hash corresponding to the data structure of the given XML string.
+    # Returns a Hash corresponding to the data structure of the given XML,
+    # which should be a REXML::Document or anything that responds to to_s
+    # with a string of valid XML.
     #
     # E.g.
     #  xml = '<alice><bob>charlie</bob><bob>david</bob></alice>'
@@ -22,7 +24,11 @@ class CobraVsMongoose
     #  # => { "alice" => { "bob" => [{ "$" => "charlie" }, { "$" => "david" }] } }
     #
     def xml_to_hash(xml)
-      doc = REXML::Document.new(xml)
+      if xml.respond_to?(:root_node)
+        doc = xml
+      else
+        doc = REXML::Document.new(xml.to_s)
+      end     
       return xml_node_to_hash(doc.root_node)
     end
   
@@ -43,7 +49,8 @@ class CobraVsMongoose
     end
     
     #
-    # Returns an XML string corresponding to the given JSON string
+    # Returns a JSON string corresponding to the given XML, the constraints
+    # for which are as for xml_to_hash.
     #
     def xml_to_json(xml)
       require 'json'
@@ -51,7 +58,7 @@ class CobraVsMongoose
     end
     
     #
-    # Returns a JSON string corresponding to the given XML string
+    # Returns an XML string corresponding to the given JSON string.
     #
     def json_to_xml(json)
       require 'json'

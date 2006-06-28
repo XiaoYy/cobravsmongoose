@@ -16,6 +16,12 @@ class XMLToHashTest < Test::Unit::TestCase
     assert !COBRA_VS_MONGOOSE_TEST_DATA.empty?
     assert methods.grep(/^test_/).length > COBRA_VS_MONGOOSE_TEST_DATA.keys.length
   end
+  
+  def test_should_accept_a_rexml_document_source
+    expected, source = COBRA_VS_MONGOOSE_TEST_DATA[:nested_elements]
+    rexml_doc = REXML::Document.new(source)
+    assert_equal(expected, CobraVsMongoose.xml_to_hash(rexml_doc))
+  end
     
   def assert_xml_to_hash(name)
     expected, source = COBRA_VS_MONGOOSE_TEST_DATA[name]
